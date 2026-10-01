@@ -9,7 +9,9 @@ class InteresController extends Controller
 {
     public function create()
     {
-        return view('intereses.create');
+        $intereses = Interes::all();
+
+        return view('intereses.create', compact('intereses'));
     }
 
     public function store(Request $request)

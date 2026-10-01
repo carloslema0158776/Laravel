@@ -13,6 +13,11 @@ class Persona extends Model
 
     public function intereses()
     {
-        return $this->belongsToMany(Interes::class);
+        return $this->belongsToMany(
+            Interes::class,
+            'interes_persona',
+            'persona_id',
+            'interes_id'
+        );
     }
 }

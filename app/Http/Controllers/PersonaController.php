@@ -19,19 +19,22 @@ class PersonaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'email' => 'required|email|unique:personas',
-            'intereses' => 'array',
+            'email' => 'required|email|unique:personas,email',
+            'intereses' => 'nullable|array',
+            'intereses.*' => 'exists:interes,id',
         ]);
 
-        $persona = Persona::create(
-            $request->only('nombre', 'email')
-        );
+        $persona = Persona::create([
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+        ]);
 
         if ($request->has('intereses')) {
             $persona->intereses()->attach($request->intereses);
         }
 
-        return redirect()->route('personas.create')
+        return redirect()
+            ->route('personas.create')
             ->with('success', 'Persona creada exitosamente.');
     }
 }
